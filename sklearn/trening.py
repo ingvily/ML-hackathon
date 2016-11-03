@@ -26,22 +26,18 @@ readDataSet()
 #X_train = scaler.transform(X_train)  
 #X_test = scaler.transform(X_test)
 
-X_train = X[:1800]
-y_train = y[:1800]
-X_val = X[1800:]
-y_val = y[1800:]
+trainSize = len(X)/4*3;
 
-
-
-print len(X_train)
-print len(X_val)
-
+X_train = X[:trainSize]
+y_train = y[:trainSize]
+X_val = X[trainSize:]
+y_val = y[trainSize:]
 
 
 mlp = MLPRegressor(hidden_layer_sizes=(100,50,), random_state=1, max_iter=1,
                    warm_start=True, learning_rate_init =0.000001)
 
-for i in range(5000):
+for i in range(1000):
     mlp.fit(X_train, y_train)
     if(i % 100 == 0):
         #print("Validation set score: %f" % mlp.score(X_val, y_val)) 
