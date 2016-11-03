@@ -7,22 +7,21 @@ y = []
 y_predicted = []
 
 def readDataSet():
-    with open('../testdata/test_scaled.csv', 'rb') as csvfile:
+    with open('../testdata/test.csv', 'rb') as csvfile:
         reader = csv.reader(csvfile, delimiter=',', quotechar='|')
         for row in reader:
                 y.append(float(row[-1]))
                 
 def readCSV():
-    with open('predicition.csv', 'rb') as csvfile:
+    with open('example.csv', 'rb') as csvfile:
         reader = csv.reader(csvfile, delimiter=',', quotechar='|')
         for row in reader:
-                y_predicted.append(row[-1]) 
+                y_predicted.append(float(row[0])) 
+
                 
 
 readDataSet()
-
-for i in range(29):
-    y_predicted.append(0.1);
+readCSV()
     
 mse = MSE( y, y_predicted )
 rmse = sqrt( mse )

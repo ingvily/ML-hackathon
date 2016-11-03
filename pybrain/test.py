@@ -5,7 +5,6 @@ from sklearn.metrics import mean_squared_error as MSE
 from trening import net
 
 test_file = '../testdata/test_scaled.csv'
-output_predictions_file = 'predictions.txt'
 
 # load data
 
@@ -43,4 +42,3 @@ for s in p[:10]:
     print (s +1)/2 *(784.83 - 35.02) + 35.02
 print "testing RMSE:", rmse
 
-np.savetxt( output_predictions_file, p, fmt = '%.6f' )

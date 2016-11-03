@@ -1,4 +1,7 @@
 from trening import mlp
+import csv
+from sklearn.metrics import mean_squared_error as MSE
+from math import sqrt
 
 X_test = []
 y_test = []
