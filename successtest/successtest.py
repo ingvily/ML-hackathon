@@ -7,7 +7,7 @@ y = []
 y_predicted = []
 
 def readDataSet():
-    with open('../testdata/test_scaled.csv', 'rb') as csvfile:
+    with open('../testdata/test.csv', 'rb') as csvfile:
         reader = csv.reader(csvfile, delimiter=',', quotechar='|')
         for row in reader:
                 y.append(float(row[-1]))
