@@ -24,19 +24,29 @@ class Dataset():
     def load_data_set(self, file, seperator):
         return pd.read_csv(file, header=None, sep=seperator)
 
-    def __init__(self, test_procentage):
-        self._scaled_training_data_and_labels = self.load_data_set('./train_bool.csv', ',').as_matrix()
-        self._scaled_test_data_and_labels = self.load_data_set('./test_bool.csv', ',').as_matrix()
+    def __init__(self, training_percentage):
+        self._data_and_labels = self.load_data_set('./train_bool.csv', ',').as_matrix()
+
+        self._length_of_input_array = len(self._data_and_labels[0])
+
+        self._all_data = self._data_and_labels[:, 0 : self._length_of_input_array - 2]
+        self._all_labels = self._data_and_labels[:, self._length_of_input_array -2 : self._length_of_input_array]
+
+        self.size_of_data_set = len(self._all_data)
+        perm = np.arange(self.size_of_data_set)
+        np.random.shuffle(perm)
+        self._all_data = self._all_data[perm]
+        self._all_labels = self._all_labels[perm]
+
+        split_training_index = int(self.size_of_data_set * training_percentage)
+
+        self._training_data = self._all_data[0 : split_training_index]
+        self._training_labels = self._all_labels[0 : split_training_index]
+
+        self._testing_data = self._all_data[split_training_index : self.size_of_data_set]
+        self._testing_labels = self._all_labels[split_training_index : self.size_of_data_set]
         
-        self.length_data = len(self._scaled_training_data_and_labels[0])
-        
-        self._training_data = self._scaled_training_data_and_labels[:, 0 : self.length_data-2]
-        self._training_labels = self._scaled_training_data_and_labels[:, self.length_data-2 : self.length_data]
-        
-        self._testing_data = self._scaled_test_data_and_labels[:, 0: self.length_data-2]
-        self._testing_labels = self._scaled_test_data_and_labels[:, self.length_data-2 : self.length_data]
-        
-        self.numer_of_input_nodes = len(self._training_data[0]) 
+        self.numer_of_input_nodes = len(self._all_data[0])
         self.number_of_output_nodes = len(self._training_labels[0]) 
 
         self._current_index = 0
