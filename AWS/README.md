@@ -3,12 +3,12 @@ Komme igang med AWS
 ====================
 
 1. Last opp treningsdata og testsett til S3
-Last opp filene `train_scaled.csv` og `test_scaled.csv` til en S3-bøtte. 
+Last opp filen `traindata/train.csv` til en S3-bøtte. 
 Dette kan du gjøre via consolet eller med `AddDataToS3.py`.
 	
 
 2. Lag en Datasource av datasettet 
-Opprett to datasources, én for trening som peker til `train_scaled.csv` og en for validering som peker til `test_scaled.csv`. 
+Opprett en datasources for trening som peker til `train_scaled.csv`.
 Dette må vi gjøre i consolet. 
 	
 3. Lag en modell med treningsdataen
@@ -17,13 +17,13 @@ Dette kan du gjøre i consolet eller med `CreateModel.py`. Dersom du bruker pyth
 
 
 4. Evaluate modellen
-Evaluer modellen på valideringssettet for å se hvor god modellen din er. 
+For å se hvor god modellen er på ukjent data skal vi evaluere den på valideringssettet som AWS satt til side for deg fra datasourcesn i punkt 2) da du trente modellen.
 Gjør dette enten i consolet eller med `CreateModel.py`. Også her trenger du id-en til valideringssettet, som du finner i consolet. 
 
 
 5. Prediker ukjent data
-Nå skal vi teste modellen på ny data som ikke inneholder `target`! 
-Da må vi gjenta steg 1. og 2. med datasettet vi ønsker å predikere (på formatet som `unlabeled_data.csv`). 
+Nå skal vi bruke modellen predikere strømpris på ny data som ikke inneholder `target`! 
+Da må vi gjenta steg 1. og 2. med datasettet vi ønsker å predikere (på formatet som `predict.csv`). 
 
 Bruk så modellen fra steg 3. til å predikere. Det kan du gjøre i consolet ved å opprette en `Batch Predictions` eller med `MakePredictions.py`. 
 Resultatet havner i S3. 
@@ -33,6 +33,8 @@ Gratulerer! Du har laget en modell i AWS! Hva gjør vi nå?
 =========================================================
 
 Her er noen tips til hvordan du kan forbedre modellen: 
+
+- Skaler datasettet. Bruk f.eks. datasettet `traindata/train_scaled.csv` 
 
 - Vi har nå brukt default oppsett til AWS. Du kan stille på noen parametre. Se mer her: http://docs.aws.amazon.com/machine-learning/latest/dg/training-parameters.html
 
