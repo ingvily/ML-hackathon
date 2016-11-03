@@ -9,9 +9,12 @@ import numpy as np
 from sklearn.metrics import mean_squared_error as MSE
 from math import sqrt
 
-data_train = pd.read_csv('./train_scaled.csv', header=None, sep=',').as_matrix()
-data_test = pd.read_csv('./test_scaled.csv', header=None, sep=',').as_matrix() #TODO!!!!!!! 
-###INGVILD AWS!!!! 
+all_data = pd.read_csv('../../traindata/train_scaled.csv', header=None, sep=',').as_matrix()
+
+trainSize = len(all_data)/4*3;
+
+data_train = all_data[:trainSize]
+data_test = all_data[trainSize:]
 
 length = len(data_train[0])
 
@@ -36,8 +39,8 @@ n_input = X_train.shape[1]
 n_classes = 1
 
 # tf Graph input
-x = tf.placeholder("float", [None, 26])
-y = tf.placeholder("float", [None, 1])
+x = tf.placeholder("float", [None, n_input])
+y = tf.placeholder("float", [None, n_classes])
 
 # Create model
 
