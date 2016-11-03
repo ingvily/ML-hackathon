@@ -16,12 +16,12 @@ Lag en modell som bruker trenignsdataen.
 Dette kan du gjøre i consolet eller med `CreateModel.py`. Dersom du bruker python-skriptet trenger du id-en til treningssettet, den finner du i consolet.
 
 
-4) Evaluate modellen
+4. Evaluate modellen
 Evaluer modellen på valideringssettet for å se hvor god modellen din er. 
 Gjør dette enten i consolet eller med `CreateModel.py`. Også her trenger du id-en til valideringssettet, som du finner i consolet. 
 
 
-5) Prediker ukjent data
+5. Prediker ukjent data
 Nå skal vi teste modellen på ny data som ikke inneholder `target`! 
 Da må vi gjenta steg 1. og 2. med datasettet vi ønsker å predikere (på formatet som `unlabeled_data.csv`). 
 
@@ -29,7 +29,8 @@ Bruk så modellen fra steg 3. til å predikere. Det kan du gjøre i consolet ved
 Resultatet havner i S3. 
 
 
-**Gratulerer! Du har laget en modell i AWS! Hva gjør vi nå? **
+Gratulerer! Du har laget en modell i AWS! Hva gjør vi nå? 
+=========================================================
 
 Her er noen tips til hvordan du kan forbedre modellen: 
 
