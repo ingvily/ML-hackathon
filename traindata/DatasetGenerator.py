@@ -10,6 +10,7 @@ prices = []
 temperature = []
 rainfall = []
 snow = []
+currency = []
 
 def readSpotPrices():
     with open('elspotprices_train.csv', 'rb') as csvfile:
@@ -30,7 +31,7 @@ def readTemperature():
             trondheim = float(row[2])
             tromso = float(row[3])
             temperature.append([oslo, bergen,trondheim, tromso])
-   
+
 def readRainfall():
     with open('rain_train.csv', 'rb') as csvfile:
         spamreader = csv.reader(csvfile, delimiter=';', quotechar='|')
@@ -38,6 +39,13 @@ def readRainfall():
             tronstad_rain = float(row[0])
             kvildal_rain = float(row[1])
             rainfall.append([tronstad_rain, kvildal_rain])
+            
+
+def readCurrency():
+    with open('valuta_train.csv', 'rb') as csvfile:
+        spamreader = csv.reader(csvfile, delimiter=';', quotechar='|')
+        for row in spamreader:
+            currency.append(float(row[0]))
             
 def readSnow():
     with open('snow_train.csv', 'rb') as csvfile:
@@ -74,6 +82,7 @@ def generateRow(index):
     row.extend(rainfall[index])
     row.extend(accumulatedRainfall)
     row.extend(snow[index])
+    row.append(currency[index])
     row.extend(previous_prices)
     row.append(prices[index])
     row.append(prices[index+1])
@@ -97,6 +106,10 @@ def generateNormalizedRow(index):
     for pp in previous_prices:
         previous_prices_scaled.append((pp - minprice)/(maxprice-minprice)*2-1)
     
+    max_currency = np.max(currency)
+    min_currency = np.min(currency)
+    scaled_currency = (currency[index] - min_currency) / (max_currency - min_currency)*2-1
+
     lokasjoner = temperature[index]
     maxtemperature = np.amax(temperature)
     mintemperature = np.amin(temperature)
@@ -131,6 +144,7 @@ def generateNormalizedRow(index):
     row.extend(rainfall_scaled)
     row.extend(accumulated_rainfall_scaled)
     row.extend(snow_scaled)
+    row.append(scaled_currency)
     row.extend(previous_prices_scaled)
     row.append(price)
     row.append(next_price)
@@ -143,7 +157,7 @@ def writeDataSet(name, start, end, writelabel):
             writer.writerow(["year", "month", "day", 
                             "temperature oslo", "temperature bergen", "temperature trondheim", "temperature tromso", 
                             "tronstad rain", "kvildal rain", "tronstad rain last week","tronstad rain last month",
-                             "kvildal rain last week", "kvildal rain last month", "tronstad snow", "kvildal snow",
+                             "kvildal rain last week", "kvildal rain last month", "tronstad snow", "kvildal snow", "currency",
                             "10 days ago", "9 days ago","8 days ago", "7 days ago", "6 days ago", "5 days ago",
                             "4 days ago", "3 days ago", "2 days ago", "1 day ago", "today", "tomorrow"])
         for x in range(NUMBER_OF_PREVIOUS_PRICES, NUMBER_OF_ROWS):
@@ -158,7 +172,7 @@ def writeDataSetScaled(name,start, end, writelabel):
             writer.writerow(["year", "month", "day", 
                             "temperature oslo", "temperature bergen", "temperature trondheim", "temperature tromso",
                             "tronstad rain", "kvildal rain", "tronstad rain last week","tronstad rain last month",
-                             "kvildal rain last week", "kvildal rain last month", "tronstad snow", "kvildal snow",
+                             "kvildal rain last week", "kvildal rain last month", "tronstad snow", "kvildal snow", "currency",
                             "10 days ago", "9 days ago","8 days ago", "7 days ago", "6 days ago", "5 days ago",
                             "4 days ago", "3 days ago", "2 days ago", "1 day ago", "today", "tomorrow"])
         for x in range(start,end ):
@@ -170,6 +184,8 @@ readSpotPrices()
 readTemperature()
 readRainfall()
 readSnow()
+readCurrency()
+
 NUMBER_OF_ROWS= len(years)-1
 print NUMBER_OF_ROWS
 print len(temperature)
