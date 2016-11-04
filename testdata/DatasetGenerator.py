@@ -1,5 +1,6 @@
 import csv
 import numpy as np
+import dateutil.parser
 
 NUMBER_OF_PREVIOUS_PRICES = 10
 
@@ -70,6 +71,11 @@ def getPreviousPricesFromIndex(i):
         previous_prices.append(prices[i-x])
     return reversed(previous_prices)
 
+def getWeekDay(year, month,day):
+    datestring = "20" + year + "-" + month + "-" + day
+    weekday = dateutil.parser.parse(datestring).weekday()
+    return weekday
+
 def generateRow(index):
     row = []
     previous_prices = getPreviousPricesFromIndex(index)
@@ -77,6 +83,7 @@ def generateRow(index):
     row.append(years[index])
     row.append(months[index])
     row.append(days[index])
+    row.append(getWeekDay(years[index], months[index], days[index]));
     row.extend(temperature[index])
     row.extend(rainfall[index])
     row.extend(accumulatedRainfall)
@@ -96,6 +103,7 @@ def generateNormalizedRow(index):
     year = (float(years[index])-13)/(16-13)*2 -1;
     month = float(months[index])/6-1
     day = float(days[index])/31*2-1
+    weekday = getWeekDay(years[index],months[index],days[index] )/3-1
     
     maxprice = np.amax(prices)
     minprice = np.amin(prices)
