@@ -94,7 +94,7 @@ def generateNormalizedRow(index):
     previous_prices = getPreviousPricesFromIndex(index);
     accumulatedRainfall = getAccumulatedRainfallFromIndex(index)
 
-    year = (float(years[index])-13)/(16-13)*2 -1; #11?
+    year = (float(years[index])-11)/(16-11)*2 -1; 
     month = float(months[index])/6-1
     day = float(days[index])/31*2-1
     
